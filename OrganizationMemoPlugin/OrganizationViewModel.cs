@@ -175,16 +175,17 @@ namespace OrganizationMemoPlugin
         {
             if(first != null)
             {
-                DisplayFleet.FirstFleetName = first;
+                _DisplayFleet.FirstFleetName = first;
             }
             if (second != null)
             {
-                DisplayFleet.SecondFleetName = second;
+                _DisplayFleet.SecondFleetName = second;
             }
-            RaisePropertyChanged();
-            RaisePropertyChanged(nameof(IsDisplayFleetNull));
 
             SaveFile();
+
+            RaisePropertyChanged();
+            RaisePropertyChanged(nameof(IsDisplayFleetNull));
         }
     }
 }

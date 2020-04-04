@@ -47,6 +47,9 @@ namespace OrganizationMemoPlugin
         {
             var view = DataContext as OrganizationViewModel;
             view.ChangeFleetName(text, null);
+            var be = FirstFleetRun.GetBindingExpression(Run.TextProperty);
+            be.UpdateTarget();
+            FleetList.Items.Refresh();
         }
 
         private void ContentControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
