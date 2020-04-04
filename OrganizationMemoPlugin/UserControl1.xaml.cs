@@ -20,9 +20,63 @@ namespace OrganizationMemoPlugin
     /// </summary>
     public partial class UserControl1 : UserControl
     {
+        private TextBlock fleetBlock;
+
         public UserControl1()
         {
             InitializeComponent();
+            FirstFleetBlock.Tag = FirstFleetBox;
+            FirstFleetBox.Tag = FirstFleetBlock;
+        }
+
+        private void EditOpen(TextBlock block, TextBox box)
+        {
+            box.Text = block.Text;
+            block.Visibility = Visibility.Collapsed;
+            box.Visibility = Visibility.Visible;
+            Dispatcher.InvokeAsync(() => box.Focus());
+        }
+
+        private void EditClose(TextBlock block, TextBox box)
+        {
+            block.Visibility = Visibility.Visible;
+            box.Visibility = Visibility.Collapsed;
+        }
+
+        private void ChangeText(TextBlock block, String text)
+        {
+            var view = DataContext as OrganizationViewModel;
+            view.ChangeFleetName(text, null);
+        }
+
+        private void ContentControl_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var content = sender as ContentControl;
+            fleetBlock = content.Content as TextBlock;
+            var fleetBox = fleetBlock.Tag as TextBox;
+
+            EditOpen(fleetBlock, fleetBox);
+        }
+
+        private void FirstFleetBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            var box = sender as TextBox;
+            var block = box.Tag as TextBlock;
+
+            if(e.Key == Key.Escape) { EditClose(block, box); }
+            if (e.Key == Key.Enter)
+            {
+                ChangeText(block, box.Text);
+                EditClose(block, box);
+            }            
+        }
+
+        private void FirstFleetBox_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            var box = sender as TextBox;
+            var block = box.Tag as TextBlock;
+
+            EditClose(block, box);
         }
     }
 }

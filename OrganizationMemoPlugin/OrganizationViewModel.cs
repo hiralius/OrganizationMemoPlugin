@@ -8,12 +8,22 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using System.Collections.ObjectModel;
+using System.Reflection;
 
 namespace OrganizationMemoPlugin
 {
     public class OrganizationViewModel : ViewModel
     {
-        static string FilePath => "OrganizationMemo.txt";
+        static string FileName => "OrganizationMemo.txt";
+
+        /// <summary>
+        /// このプラグインがあるフォルダに
+        /// \アセンブリ名.xaml
+        /// を繋げたもの（デフォルトはこれ）
+        /// </summary>
+        private static string FilePath { get; } = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName,
+             FileName);
+
         XmlSerializer serializer = new XmlSerializer(typeof(OrganizationFleets));
 
         private OrganizationFleet _DisplayFleet;
@@ -159,6 +169,22 @@ namespace OrganizationMemoPlugin
                 () => {
                     SaveFile();
             });
+        }
+
+        public void ChangeFleetName(String first, String second)
+        {
+            if(first != null)
+            {
+                DisplayFleet.FirstFleetName = first;
+            }
+            if (second != null)
+            {
+                DisplayFleet.SecondFleetName = second;
+            }
+            RaisePropertyChanged();
+            RaisePropertyChanged(nameof(IsDisplayFleetNull));
+
+            SaveFile();
         }
     }
 }

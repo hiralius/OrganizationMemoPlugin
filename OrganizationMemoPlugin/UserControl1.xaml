@@ -92,190 +92,197 @@
     </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="110"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <WrapPanel Grid.Row="0">
-                <controls:CallMethodButton Margin="0,0,10,0" Content="通常艦隊保存" MethodName="AddFleet" MethodParameter="false" />
-                <controls:CallMethodButton Margin="0,0,10,0" Content="連合艦隊保存" MethodName="AddFleet" MethodParameter="true" />
-                <controls:CallMethodButton Margin="0,0,10,0" Content="削除" MethodName="DeleteFleet"/>
-            </WrapPanel>
-            <Grid Grid.Row="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <WrapPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,0,5">
-                    <TextBlock Grid.Row="0" Grid.Column="0">
-                        <Run FontSize="15" Text="{Binding DisplayFleet.FirstFleetName, Mode=OneWay}"/>
-                    </TextBlock>
-                    <TextBlock  FontSize="15">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsDisplayFleetNull, Mode=OneWay}" Value="true">
-                                        <Setter Property="Visibility" Value="Hidden"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsDisplayFleetNull, Mode=OneWay}" Value="false">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                        <Run Text="(制空戦力: "/>
-                        <Run Text="{Binding DisplayFleet.MinAirSuperiorityPotential, Mode=OneWay}"/>
-                        <Run Text=" - "/>
-                        <Run Text="{Binding DisplayFleet.MediumAirSuperiorityPotential, Mode=OneWay}"/>
-                        <Run Text=" - "/>
-                        <Run Text="{Binding DisplayFleet.MaxAirSuperiorityPotential, Mode=OneWay}"/>
-                        <Run Text=")"/>
-                    </TextBlock>
-                </WrapPanel>
-                <Grid Grid.Row="1" Grid.Column="0">
-                    <ItemsControl ItemsSource="{Binding DisplayFleet.FirstFleet, Mode=OneWay}"
-							  Margin="0,0,0,0"
-							  Grid.IsSharedSizeScope="True">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock FontSize="12" Grid.Column="0" Margin="3,0,0,3">
-                                            <Run Text="{Binding ShipInfo.Name, Mode=OneWay}"/>
-                                        </TextBlock>
-                                        <Grid Grid.Column="1">
-                                            <ItemsControl ItemsSource="{Binding SlotItemInfosFirstHalf, Mode=OneWay}" Margin="0,0,0,0" Grid.IsSharedSizeScope="True">
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <WrapPanel HorizontalAlignment="Left">
-                                                            <kcvc:SlotItemIcon Width="15" Height="15" Type="{Binding SlotItemInfo.IconType}"/>
-                                                            <TextBlock Style="{StaticResource SlotTextBlockStyle}" Margin="3,0,3,0">
-                                                                <Run Text="{Binding Slot}"/>
-                                                            </TextBlock>
-                                                            <TextBlock Margin="3,0,3,0">
-                                                                <Run Text="{Binding SlotItemInfo.Name, Mode=OneWay}"/>
-                                                            </TextBlock>
-                                                        </WrapPanel>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                        </Grid>
-                                        <Grid Grid.Column="2">
-                                            <ItemsControl ItemsSource="{Binding SlotItemInfosLatterHalf, Mode=OneWay}" Margin="0,0,0,0" Grid.IsSharedSizeScope="True">
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <WrapPanel HorizontalAlignment="Left">
-                                                            <kcvc:SlotItemIcon Width="15" Height="15" Type="{Binding SlotItemInfo.IconType}"/>
-                                                            <TextBlock Style="{StaticResource SlotTextBlockStyle}" Margin="3,0,3,0">
-                                                                <Run Text="{Binding Slot}"/>
-                                                            </TextBlock>
-                                                            <TextBlock Margin="3,0,3,0">
-                                                                <Run Text="{Binding SlotItemInfo.Name, Mode=OneWay}"/>
-                                                            </TextBlock>
-                                                        </WrapPanel>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
-                                        </Grid>
-                                    </Grid>
-                                    <Rectangle Height=".99"
-										   Style="{DynamicResource SeparatorRectangleStyleKey}"
-										   Margin="10,0" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </Grid>
-            </Grid>
-            <WrapPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right">
-                <Border BorderBrush="Gray" Width="auto" BorderThickness="2">
-                    <ListBox Style="{StaticResource VerticalFlatListBoxStyleKey}"
+            <Grid Grid.Column="0">
+                <WrapPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right">
+                    <Border BorderBrush="Gray" Width="auto" BorderThickness="2">
+                        <ListBox Style="{StaticResource VerticalFlatListBoxStyleKey}"
                          ItemsSource="{Binding SelectFleets, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                          DisplayMemberPath="DisplayFleetName"
                          SelectedItem="{Binding DisplayFleet, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
-                    </ListBox>
-                </Border>
-            </WrapPanel>
-            <Grid Grid.Row="2">
+                        </ListBox>
+                    </Border>
+                </WrapPanel>
+            </Grid>
+            <Grid Grid.Column="1" Margin="10,0,0,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock FontSize="15" Grid.Row="0" Grid.Column="0" Margin="0,0,0,5">
-                    <Run Text="{Binding DisplayFleet.SecondFleetName, Mode=OneWay}"/>
-                </TextBlock>
-                <Grid Grid.Row="1" Grid.Column="0">
-                    <ItemsControl ItemsSource="{Binding DisplayFleet.SecondFleet, Mode=OneWay}" Margin="0,0,0,0" Grid.IsSharedSizeScope="True">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="100"/>
-                                            <ColumnDefinition Width="auto"/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        <TextBlock FontSize="12" Grid.Column="0" Margin="3,0,0,3">
-                                            <Run Text="{Binding ShipInfo.Name, Mode=OneWay}"/>
-                                        </TextBlock>
-                                        <Grid Grid.Column="1">
-                                            <ItemsControl ItemsSource="{Binding SlotItemInfosFirstHalf, Mode=OneWay}" Margin="0,0,0,0" Grid.IsSharedSizeScope="True">
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <WrapPanel HorizontalAlignment="Left">
-                                                            <kcvc:SlotItemIcon Width="15" Height="15" Type="{Binding SlotItemInfo.IconType}"/>
-                                                            <TextBlock Style="{StaticResource SlotTextBlockStyle}" Margin="3,0,3,0">
-                                                                <Run Text="{Binding Slot}"/>
-                                                            </TextBlock>
-                                                            <TextBlock Margin="3,0,3,0">
-                                                                <Run Text="{Binding SlotItemInfo.Name, Mode=OneWay}"/>
-                                                            </TextBlock>
-                                                        </WrapPanel>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
+                <WrapPanel Grid.Row="0" Margin="0,0,0,10">
+                    <controls:CallMethodButton Margin="0,0,10,0" Content="通常艦隊保存" MethodName="AddFleet" MethodParameter="false" />
+                    <controls:CallMethodButton Margin="0,0,10,0" Content="連合艦隊保存" MethodName="AddFleet" MethodParameter="true" />
+                    <controls:CallMethodButton Margin="0,0,10,0" Content="削除" MethodName="DeleteFleet"/>
+                </WrapPanel>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <WrapPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,0,5">
+                        <ContentControl MouseDoubleClick="ContentControl_MouseDoubleClick">
+                            <TextBlock x:Name="FirstFleetBlock" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">
+                                <Run FontSize="15" Text="{Binding DisplayFleet.FirstFleetName, Mode=OneWay}"/>
+                            </TextBlock>
+                        </ContentControl>
+                        <TextBox x:Name="FirstFleetBox" FontSize="15" Visibility="Collapsed" KeyDown="FirstFleetBox_KeyDown" LostKeyboardFocus="FirstFleetBox_LostKeyboardFocus"></TextBox>
+                        <TextBlock  FontSize="15" VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsDisplayFleetNull, Mode=OneWay}" Value="true">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsDisplayFleetNull, Mode=OneWay}" Value="false">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                            <Run Text="(制空戦力: "/>
+                            <Run Text="{Binding DisplayFleet.MinAirSuperiorityPotential, Mode=OneWay}"/>
+                            <Run Text=" - "/>
+                            <Run Text="{Binding DisplayFleet.MediumAirSuperiorityPotential, Mode=OneWay}"/>
+                            <Run Text=" - "/>
+                            <Run Text="{Binding DisplayFleet.MaxAirSuperiorityPotential, Mode=OneWay}"/>
+                            <Run Text=")"/>
+                        </TextBlock>
+                    </WrapPanel>
+                    <Grid Grid.Row="1" Grid.Column="0">
+                        <ItemsControl ItemsSource="{Binding DisplayFleet.FirstFleet, Mode=OneWay}"
+							      Margin="0,0,0,0"
+							      Grid.IsSharedSizeScope="True">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock FontSize="12" Grid.Column="0" Margin="3,0,0,3">
+                                                <Run Text="{Binding ShipInfo.Name, Mode=OneWay}"/>
+                                            </TextBlock>
+                                            <Grid Grid.Column="1">
+                                                <ItemsControl ItemsSource="{Binding SlotItemInfosFirstHalf, Mode=OneWay}" Margin="0,0,0,0" Grid.IsSharedSizeScope="True">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <WrapPanel HorizontalAlignment="Left">
+                                                                <kcvc:SlotItemIcon Width="15" Height="15" Type="{Binding SlotItemInfo.IconType}"/>
+                                                                <TextBlock Style="{StaticResource SlotTextBlockStyle}" Margin="3,0,3,0">
+                                                                    <Run Text="{Binding Slot}"/>
+                                                                </TextBlock>
+                                                                <TextBlock Margin="3,0,3,0">
+                                                                    <Run Text="{Binding SlotItemInfo.Name, Mode=OneWay}"/>
+                                                                </TextBlock>
+                                                            </WrapPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Grid>
+                                            <Grid Grid.Column="2">
+                                                <ItemsControl ItemsSource="{Binding SlotItemInfosLatterHalf, Mode=OneWay}" Margin="0,0,0,0" Grid.IsSharedSizeScope="True">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <WrapPanel HorizontalAlignment="Left">
+                                                                <kcvc:SlotItemIcon Width="15" Height="15" Type="{Binding SlotItemInfo.IconType}"/>
+                                                                <TextBlock Style="{StaticResource SlotTextBlockStyle}" Margin="3,0,3,0">
+                                                                    <Run Text="{Binding Slot}"/>
+                                                                </TextBlock>
+                                                                <TextBlock Margin="3,0,3,0">
+                                                                    <Run Text="{Binding SlotItemInfo.Name, Mode=OneWay}"/>
+                                                                </TextBlock>
+                                                            </WrapPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Grid>
                                         </Grid>
-                                        <Grid Grid.Column="2">
-                                            <ItemsControl ItemsSource="{Binding SlotItemInfosLatterHalf, Mode=OneWay}" Margin="0,0,0,0" Grid.IsSharedSizeScope="True">
-                                                <ItemsControl.ItemTemplate>
-                                                    <DataTemplate>
-                                                        <WrapPanel HorizontalAlignment="Left">
-                                                            <kcvc:SlotItemIcon Width="15" Height="15" Type="{Binding SlotItemInfo.IconType}"/>
-                                                            <TextBlock Style="{StaticResource SlotTextBlockStyle}" Margin="3,0,3,0">
-                                                                <Run Text="{Binding Slot}"/>
-                                                            </TextBlock>
-                                                            <TextBlock Margin="3,0,3,0">
-                                                                <Run Text="{Binding SlotItemInfo.Name, Mode=OneWay}"/>
-                                                            </TextBlock>
-                                                        </WrapPanel>
-                                                    </DataTemplate>
-                                                </ItemsControl.ItemTemplate>
-                                            </ItemsControl>
+                                        <Rectangle Height=".99"
+										       Style="{DynamicResource SeparatorRectangleStyleKey}"
+										       Margin="10,0" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Row="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock FontSize="15" Grid.Row="0" Grid.Column="0" Margin="0,0,0,5">
+                        <Run Text="{Binding DisplayFleet.SecondFleetName, Mode=OneWay}"/>
+                    </TextBlock>
+                    <Grid Grid.Row="1" Grid.Column="0">
+                        <ItemsControl ItemsSource="{Binding DisplayFleet.SecondFleet, Mode=OneWay}" Margin="0,0,0,0" Grid.IsSharedSizeScope="True">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="100"/>
+                                                <ColumnDefinition Width="auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock FontSize="12" Grid.Column="0" Margin="3,0,0,3">
+                                                <Run Text="{Binding ShipInfo.Name, Mode=OneWay}"/>
+                                            </TextBlock>
+                                            <Grid Grid.Column="1">
+                                                <ItemsControl ItemsSource="{Binding SlotItemInfosFirstHalf, Mode=OneWay}" Margin="0,0,0,0" Grid.IsSharedSizeScope="True">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <WrapPanel HorizontalAlignment="Left">
+                                                                <kcvc:SlotItemIcon Width="15" Height="15" Type="{Binding SlotItemInfo.IconType}"/>
+                                                                <TextBlock Style="{StaticResource SlotTextBlockStyle}" Margin="3,0,3,0">
+                                                                    <Run Text="{Binding Slot}"/>
+                                                                </TextBlock>
+                                                                <TextBlock Margin="3,0,3,0">
+                                                                    <Run Text="{Binding SlotItemInfo.Name, Mode=OneWay}"/>
+                                                                </TextBlock>
+                                                            </WrapPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Grid>
+                                            <Grid Grid.Column="2">
+                                                <ItemsControl ItemsSource="{Binding SlotItemInfosLatterHalf, Mode=OneWay}" Margin="0,0,0,0" Grid.IsSharedSizeScope="True">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <WrapPanel HorizontalAlignment="Left">
+                                                                <kcvc:SlotItemIcon Width="15" Height="15" Type="{Binding SlotItemInfo.IconType}"/>
+                                                                <TextBlock Style="{StaticResource SlotTextBlockStyle}" Margin="3,0,3,0">
+                                                                    <Run Text="{Binding Slot}"/>
+                                                                </TextBlock>
+                                                                <TextBlock Margin="3,0,3,0">
+                                                                    <Run Text="{Binding SlotItemInfo.Name, Mode=OneWay}"/>
+                                                                </TextBlock>
+                                                            </WrapPanel>
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                </ItemsControl>
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
-                                    <Rectangle Height=".99"
-										   Style="{DynamicResource SeparatorRectangleStyleKey}"
-										   Margin="10,0" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                                        <Rectangle Height=".99"
+										       Style="{DynamicResource SeparatorRectangleStyleKey}"
+										       Margin="10,0" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>
