@@ -102,7 +102,7 @@
                         <ListBox x:Name="FleetList" Style="{StaticResource VerticalFlatListBoxStyleKey}"
                          ItemsSource="{Binding SelectFleets, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
                          DisplayMemberPath="DisplayFleetName"
-                         SelectedItem="{Binding DisplayFleet, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}">
+                         SelectedItem="{Binding DisplayFleet, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="98">
                         </ListBox>
                     </Border>
                 </WrapPanel>
@@ -120,6 +120,7 @@
                 </WrapPanel>
                 <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
@@ -155,7 +156,9 @@
                             <Run Text=")"/>
                         </TextBlock>
                     </WrapPanel>
-                    <Grid Grid.Row="1" Grid.Column="0">
+                    <metro:PromptTextBox Grid.Row="1" MinHeight="30" FontSize="10" Prompt="備考" AcceptsReturn="True" TextWrapping="Wrap"
+                                         Text="{Binding DisplayFleet.Note, Mode=TwoWay}"/>
+                    <Grid Grid.Row="2" Grid.Column="0" Margin="0,8,0,0">
                         <ItemsControl ItemsSource="{Binding DisplayFleet.FirstFleet, Mode=OneWay}"
 							      Margin="0,0,0,0"
 							      Grid.IsSharedSizeScope="True">

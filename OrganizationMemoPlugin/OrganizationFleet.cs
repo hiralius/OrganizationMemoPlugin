@@ -14,5 +14,6 @@ namespace OrganizationMemoPlugin
         public int MaxAirSuperiorityPotential => FirstFleet == null ? 0 : FirstFleet.CalcMaxAirSuperiorityPotential();
         public int MinAirSuperiorityPotential => FirstFleet == null ? 0 : FirstFleet.CalcMinAirSuperiorityPotential();
 		public int MediumAirSuperiorityPotential => FirstFleet == null ? 0 : FirstFleet.CalcMediumAirSuperiorityPotential();
-	}
+        public string Note { get; set; }
+    }
 }
