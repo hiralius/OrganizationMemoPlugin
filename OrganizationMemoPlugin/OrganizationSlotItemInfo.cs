@@ -9,7 +9,7 @@ namespace OrganizationMemoPlugin
         public SlotItemInfo SlotItemInfo { get; set; }
         public int Slot { get; set; }
 
-        public ToolTip hint => new ToolTip { Content = SlotItemInfo.Name };
+        public ToolTip Hint => new ToolTip { Content = SlotItemInfo.Name };
 
         public bool SlotIsAircraft => new[] { SlotItemType.水上偵察機,
                                             SlotItemType.水上爆撃機,

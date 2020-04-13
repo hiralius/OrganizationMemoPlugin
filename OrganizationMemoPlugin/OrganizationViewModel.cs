@@ -14,17 +14,9 @@ namespace OrganizationMemoPlugin
 {
     public class OrganizationViewModel : ViewModel
     {
-        static string FileName => "OrganizationMemo.txt";
+        #region プロパティ
 
-        /// <summary>
-        /// このプラグインがあるフォルダに
-        /// \アセンブリ名.xaml
-        /// を繋げたもの（デフォルトはこれ）
-        /// </summary>
-        private static string FilePath { get; } = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName,
-             FileName);
-
-        XmlSerializer serializer = new XmlSerializer(typeof(OrganizationFleets));
+        public Boolean IsDisplayFleetNull => DisplayFleet == null;
 
         private OrganizationFleet _DisplayFleet;
         public OrganizationFleet DisplayFleet
@@ -35,46 +27,32 @@ namespace OrganizationMemoPlugin
             }
             set
             {
-                if (value == null && SelectFleets.Count() != 0) return;
+                if (value == null && ItemFleets.Count() != 0) return;
                 _DisplayFleet = value;
+                IgnoreChange = true;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(IsDisplayFleetNull));
             }
         }
 
-        public Boolean IsDisplayFleetNull => DisplayFleet == null;
-
-        public ObservableCollection<OrganizationFleet> _SelectFleets;
-        public ObservableCollection<OrganizationFleet> SelectFleets
+        // 選択リスト用
+        private ObservableCollection<OrganizationFleet> _ItemFleets;
+        public ObservableCollection<OrganizationFleet> ItemFleets
         {
             get
             {
-                return _SelectFleets;
+                return _ItemFleets;
             }
             set
             {
-                _SelectFleets = value;
+                _ItemFleets = value;
                 RaisePropertyChanged();
             }
         }
 
-        private OrganizationFleets _OrganizationFleets;
+        public Action<int> DropCallback { get { return MoveFleet; } }
 
-        public OrganizationViewModel()
-        {
-            Init();
-        }
-
-        private void Init()
-        {
-            _OrganizationFleets = LoadFile();
-
-            SelectFleets = new ObservableCollection<OrganizationFleet>(_OrganizationFleets.Fleets);
-            if(_SelectFleets.Count > 0)
-            {
-                DisplayFleet = _SelectFleets.First();
-            }
-        }
+        #endregion
 
         private List<OrganizationShipInfo> Fleet2OrganizationShipInfo(int i) =>
             KanColleClient.Current.Homeport.Organization.Fleets[i].Ships.Select(
@@ -85,6 +63,47 @@ namespace OrganizationMemoPlugin
                     ExSlot = ship.ExSlot.Item.Info.Id
                 }
             ).ToList();
+
+        // 艦隊リスト実体
+        private OrganizationFleets _OrganizationFleets;
+
+        #region 適用ボタン関連
+
+        private bool IgnoreChange = false;
+        private bool _Changed = false;
+
+        public void TextInputing()
+        {
+            IgnoreChange = false;
+        }
+
+        public bool Changed
+        {
+            get { return _Changed; }
+            set
+            {
+                if (value == _Changed) return;
+                _Changed = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        public void TextChanged()
+        {
+            if (IgnoreChange) return;
+            Changed = true;
+        }
+
+        public void Apply()
+        {
+            SaveFile();
+            Changed = false;
+        }
+
+        #endregion
+
+        #region 艦隊操作
 
         public void AddFleet(String flag)
         {
@@ -101,7 +120,7 @@ namespace OrganizationMemoPlugin
 
             _OrganizationFleets.Fleets.Add(newFleet);
 
-            SelectFleets = new ObservableCollection<OrganizationFleet>(_OrganizationFleets.Fleets);
+            ItemFleets = new ObservableCollection<OrganizationFleet>(_OrganizationFleets.Fleets);
 
             DisplayFleet = newFleet;
 
@@ -109,6 +128,92 @@ namespace OrganizationMemoPlugin
                 SaveFile();
             });
         }
+
+        public void DeleteFleet()
+        {
+            if (ItemFleets.Count() == 0 || DisplayFleet == null) return;
+
+            int index = ItemFleets
+                .Select((y, i) => new { Fleet = y, Index = i })
+                .Where(f => f.Fleet.Time.Equals(DisplayFleet.Time))
+                .First().Index;
+
+            OrganizationFleet fleet = ItemFleets
+                .Where((d, i) => i == index - 1 || i == index + 1)
+                .FirstOrDefault();
+
+            var fleets = ItemFleets.ToList();
+
+            fleets.RemoveAt(index);
+
+            _OrganizationFleets.Fleets = fleets;
+
+            ItemFleets = new ObservableCollection<OrganizationFleet>(_OrganizationFleets.Fleets);
+
+            DisplayFleet = fleet;
+
+            Task.Run(
+                () => {
+                    SaveFile();
+                });
+        }
+
+        private void MoveFleet(int index)
+        {
+            if (index < 0) return;
+
+            int currentIndex = ItemFleets
+                .Select((y, i) => new { Fleet = y, Index = i })
+                .Where(f => f.Fleet.Time.Equals(DisplayFleet.Time))
+                .First().Index;
+
+            Console.WriteLine("index={0}, current={1}", currentIndex, index);
+
+            _ItemFleets.Move(currentIndex, index);
+
+            var fleets = _ItemFleets.ToList();
+            _OrganizationFleets.Fleets = fleets;
+
+            Task.Run(
+                () => {
+                    SaveFile();
+                });
+
+            Changed = false;
+            RaisePropertyChanged();
+        }
+
+        public void ChangeFleetName(String first, String second)
+        {
+            if (first != null)
+            {
+                _DisplayFleet.FirstFleetName = first;
+            }
+            if (second != null)
+            {
+                _DisplayFleet.SecondFleetName = second;
+            }
+
+            SaveFile();
+
+            RaisePropertyChanged();
+            RaisePropertyChanged(nameof(IsDisplayFleetNull));
+        }
+
+        #endregion
+
+        #region ファイル操作
+
+        /// <summary>
+        /// このプラグインがあるフォルダに
+        /// \アセンブリ名.xaml
+        /// を繋げたもの（デフォルトはこれ）
+        /// </summary>
+        private static string FileName => "OrganizationMemo.txt";
+        private static string FilePath { get; } = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName,
+             FileName);
+
+        private XmlSerializer serializer = new XmlSerializer(typeof(OrganizationFleets));
 
         private void SaveFile()
         {
@@ -145,52 +250,25 @@ namespace OrganizationMemoPlugin
             return fleets;
         }
 
-        public void DeleteFleet()
+        #endregion
+
+        private void Init()
         {
-            if (SelectFleets.Count() == 0 || DisplayFleet == null) return;
+            _OrganizationFleets = LoadFile();
 
-            int index = SelectFleets
-                .OrderBy(x => x.Time)
-                .Select((y, i) => new { Fleet = y, Index = i })
-                .Where(f => f.Fleet.Time.Equals(DisplayFleet.Time))
-                .First().Index;
-
-            OrganizationFleet fleet = SelectFleets
-                .OrderBy(x => x.Time)
-                .Where((d, i) => i == index - 1 || i == index + 1)
-                .FirstOrDefault();
-
-            var fleets = SelectFleets.OrderBy(x => x.Time).ToList();
-
-            fleets.RemoveAt(index);
-
-            _OrganizationFleets.Fleets = fleets;
-
-            SelectFleets = new ObservableCollection<OrganizationFleet>(_OrganizationFleets.Fleets);
-
-            DisplayFleet = fleet;
-
-            Task.Run(
-                () => {
-                    SaveFile();
-            });
+            ItemFleets = new ObservableCollection<OrganizationFleet>(_OrganizationFleets.Fleets);
+            if (_ItemFleets.Count > 0)
+            {
+                _DisplayFleet = _ItemFleets.First();
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(IsDisplayFleetNull));
+            }
         }
 
-        public void ChangeFleetName(String first, String second)
+        public OrganizationViewModel()
         {
-            if(first != null)
-            {
-                _DisplayFleet.FirstFleetName = first;
-            }
-            if (second != null)
-            {
-                _DisplayFleet.SecondFleetName = second;
-            }
-
-            SaveFile();
-
-            RaisePropertyChanged();
-            RaisePropertyChanged(nameof(IsDisplayFleetNull));
+            Init();
         }
+
     }
 }

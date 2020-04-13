@@ -28,7 +28,8 @@ namespace OrganizationMemoPlugin
 
         public OrganizationSlotItemInfo ExSlotItemInfo => new OrganizationSlotItemInfo
         {
-            SlotItemInfo = KanColleClient.Current.Master.SlotItems.Where(i => i.Value.Id.Equals(ExSlot)).First().Value,
+            SlotItemInfo = ExSlot == 0 ? SlotItemInfo.Dummy 
+                                       : KanColleClient.Current.Master.SlotItems.Where(i => i.Value.Id.Equals(ExSlot)).First().Value,
         };
 
         public bool ExSlotEquipped => ExSlot > 0;
