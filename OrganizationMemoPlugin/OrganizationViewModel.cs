@@ -70,6 +70,10 @@ namespace OrganizationMemoPlugin
             _OrganizationFleets = LoadFile();
 
             SelectFleets = new ObservableCollection<OrganizationFleet>(_OrganizationFleets.Fleets);
+            if(_SelectFleets.Count > 0)
+            {
+                DisplayFleet = _SelectFleets.First();
+            }
         }
 
         private List<OrganizationShipInfo> Fleet2OrganizationShipInfo(int i) =>
@@ -77,7 +81,8 @@ namespace OrganizationMemoPlugin
                 ship => new OrganizationShipInfo()
                 {
                     Id = ship.Info.Id,
-                    SlotIds = ship.Slots.Select(slot => slot.Item.Info.Id).ToList()
+                    SlotIds = ship.Slots.Select(slot => slot.Item.Info.Id).ToList(),
+                    ExSlot = ship.ExSlot.Item.Info.Id
                 }
             ).ToList();
 
