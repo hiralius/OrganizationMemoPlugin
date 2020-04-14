@@ -22,11 +22,10 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Styles/Icons.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Generic.PromptTextBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Generic.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Dark.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Accents/Purple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Accents/Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MetroTrilithon.Desktop;component/Styles/Controls.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MetroTrilithon.Desktop;component/Themes/Generic.CallMethodButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MetroTrilithon.Desktop;component/Themes/Generic.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Dark.xaml" />
                 <!--<ResourceDictionary Source="pack://application:,,,/MetroRadiance;component/Themes/Accents/Purple.xaml" />-->
@@ -48,7 +47,7 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
-            <Style x:Key="VerticalFlatListBoxStyleKey" TargetType="{x:Type ListBox}">
+            <Style x:Key="VerticalFlatListBoxStyleKey" TargetType="{x:Type b:ListBoxDD}">
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type ItemsControl}">
@@ -60,14 +59,14 @@
 
                 <Setter Property="ItemContainerStyle">
                     <Setter.Value>
-                        <Style TargetType="{x:Type ListBoxItem}">
+                        <Style TargetType="{x:Type b:ListBoxDDItem}">
                             <Setter Property="OverridesDefaultStyle"
 							Value="True" />
                             <Setter Property="Foreground"
 							Value="{DynamicResource InactiveForegroundBrushKey}" />
                             <Setter Property="Template">
                                 <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                    <ControlTemplate TargetType="{x:Type b:ListBoxDDItem}">
                                         <ContentPresenter />
                                     </ControlTemplate>
                                 </Setter.Value>
@@ -92,23 +91,20 @@
             <sys:Double x:Key="SlotNumWidth">18.0</sys:Double>
         </ResourceDictionary>
     </UserControl.Resources>
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="0,2,0,0">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="110"/>
-                <ColumnDefinition Width="510"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0">
-                <WrapPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right">
-                    <Border BorderBrush="Gray" Width="auto" BorderThickness="2">
-                        <b:ListBoxDD x:Name="FleetList" Style="{StaticResource VerticalFlatListBoxStyleKey}"
-                         ItemsSource="{Binding ItemFleets, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
-                         DisplayMemberPath="DisplayFleetName"
-                         SelectedItem="{Binding DisplayFleet, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="98"
-                         b:ReorderableItemsControlBehavior.Callback="{Binding DropCallback}" AllowDrop="True" >
-                        </b:ListBoxDD>
-                    </Border>
-                </WrapPanel>
+                <Border BorderBrush="Gray" BorderThickness="2" Padding="2,0" Margin="2,0,0,0" VerticalAlignment="Top">
+                    <b:ListBoxDD x:Name="FleetList" Style="{StaticResource VerticalFlatListBoxStyleKey}"
+                        ItemsSource="{Binding ItemFleets, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}"
+                        DisplayMemberPath="DisplayFleetName"
+                        SelectedItem="{Binding DisplayFleet, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" MinWidth="98"
+                        b:ReorderableItemsControlBehavior.Callback="{Binding DropCallback}" AllowDrop="True" />
+                </Border>
             </Grid>
             <Grid Grid.Column="1" Margin="10,0,0,0">
                 <Grid.RowDefinitions>
@@ -123,7 +119,7 @@
                     <controls:CallMethodButton Margin="20,0,10,0" Content="適用" MethodName="Apply"
                                                IsEnabled="{Binding Changed}"/>
                 </WrapPanel>
-                <Grid Grid.Row="1" Margin="0,0,8,0">
+                <Grid Grid.Row="1" Margin="0,0,0,2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -132,18 +128,18 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <WrapPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,8,5" Height="28">
+                    <WrapPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left" Margin="0,0,4,5" Height="28">
                         <ContentControl HorizontalAlignment="Center" VerticalAlignment="Center"
                                          MouseDoubleClick="ContentControl_MouseDoubleClick">
                             <TextBlock x:Name="FirstFleetBlock" Grid.Row="0" Grid.Column="0" 
-                                       HorizontalAlignment="Left" Margin="3,1,7,2">
+                                       HorizontalAlignment="Left" Margin="3,1,4,2">
                                 <Run x:Name="FirstFleetRun" FontSize="15" 
                                      Text="{Binding DisplayFleet.FirstFleetName, Mode=OneWay, UpdateSourceTrigger=Explicit}"/>
                             </TextBlock>
                         </ContentControl>
                         <TextBox x:Name="FirstFleetBox" FontSize="15" Visibility="Collapsed"  VerticalAlignment="Center"
                                  KeyDown="FirstFleetBox_KeyDown" 
-                                 LostKeyboardFocus="FirstFleetBox_LostKeyboardFocus"></TextBox>
+                                 LostKeyboardFocus="FirstFleetBox_LostKeyboardFocus" />
                         <TextBlock  FontSize="15" VerticalAlignment="Center" Margin="0,3">
                             <TextBlock.Style>
                                 <Style TargetType="TextBlock">
@@ -157,13 +153,13 @@
                                     </Style.Triggers>
                                 </Style>
                             </TextBlock.Style>
-                            <Run Text="(制空戦力: "/>
+                            <Run Text="（制空戦力: "/>
                             <Run Text="{Binding DisplayFleet.MinAirSuperiorityPotential, Mode=OneWay}"/>
                             <Run Text=" - "/>
                             <Run Text="{Binding DisplayFleet.MediumAirSuperiorityPotential, Mode=OneWay}"/>
                             <Run Text=" - "/>
                             <Run Text="{Binding DisplayFleet.MaxAirSuperiorityPotential, Mode=OneWay}"/>
-                            <Run Text=")"/>
+                            <Run Text="）"/>
                         </TextBlock>
                     </WrapPanel>
                     <metro:PromptTextBox Grid.Row="1" MinHeight="30" FontSize="10" Prompt="備考" AcceptsReturn="True" TextWrapping="Wrap"
@@ -250,14 +246,14 @@
                                         </Grid>
                                         <Rectangle Height=".99"
 										       Style="{DynamicResource SeparatorRectangleStyleKey}"
-										       Margin="10,0" />
+										       Margin="-2,0" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
                     </Grid>
                 </Grid>
-                <Grid Grid.Row="2" Margin="0,0,7,0">
+                <Grid Grid.Row="2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
                         <RowDefinition Height="auto"/>
@@ -335,7 +331,7 @@
                                         </Grid>
                                         <Rectangle Height=".99"
 										       Style="{DynamicResource SeparatorRectangleStyleKey}"
-										       Margin="10,0" />
+										       Margin="-2,0" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
