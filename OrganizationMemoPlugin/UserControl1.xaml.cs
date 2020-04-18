@@ -81,5 +81,17 @@ namespace OrganizationMemoPlugin
 
             EditClose(block, box);
         }
+
+        private void CallMethodButton_Click(object sender, RoutedEventArgs e)
+        {
+            FleetInfo.Visibility = Visibility.Collapsed;
+            FleetOrder.Visibility = Visibility.Visible;
+        }
+
+        private void CallMethodButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            FleetInfo.Visibility = Visibility.Visible;
+            FleetOrder.Visibility = Visibility.Collapsed;
+        }
     }
 }
