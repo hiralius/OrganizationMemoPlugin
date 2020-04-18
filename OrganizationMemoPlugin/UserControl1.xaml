@@ -210,7 +210,7 @@
                             <Run Text="）"/>
                         </TextBlock>
                     </WrapPanel>
-                    <metro:PromptTextBox Grid.Row="1" MinHeight="30" FontSize="10" Prompt="備考" AcceptsReturn="True" TextWrapping="Wrap"
+                    <metro:PromptTextBox Grid.Row="1" MinHeight="30" FontSize="10" Prompt="メモ" AcceptsReturn="True" TextWrapping="Wrap"
                                          Text="{Binding DisplayFleet.Note, Mode=TwoWay}">
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="TextChanged">
