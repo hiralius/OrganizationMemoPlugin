@@ -38,6 +38,11 @@
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
             <Style x:Key="SlotTextBlockStyle" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="8"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Bottom"/>
+                <Setter Property="Margin" Value="1,0,2,0"/>
+                <Setter Property="MinWidth" Value="10"/>
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding SlotIsAircraft, Mode=OneWay}" Value="true">
                         <Setter Property="Visibility" Value="Visible"/>
@@ -120,7 +125,6 @@
             </Style>
 
             <sys:Double x:Key="SlotNameWidth">80.0</sys:Double>
-            <sys:Double x:Key="SlotNumWidth">18.0</sys:Double>
         </ResourceDictionary>
     </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Margin="0,2,0,0">
@@ -147,7 +151,8 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <WrapPanel Grid.Row="0" Margin="0,0,0,10">
+                <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                <WrapPanel Margin="0,0,0,4">
                     <metro:PromptComboBox Margin="0,0,10,0" IsReadOnly="True" MinWidth="98"
                                           Style="{StaticResource VerticalFlatListBoxStyleKey0}"
                                           SelectedItem="{Binding DisplayFleet, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
@@ -158,9 +163,10 @@
                     <controls:CallMethodButton Margin="0,0,10,0" Content="連合艦隊保存" MethodName="AddFleet" MethodParameter="true" />
                     <controls:CallMethodButton Margin="0,0,10,0" Content="削除" MethodName="DeleteFleet"/>
                     <controls:CallMethodButton Margin="0,0,10,0" Content="艦隊順変更" Click="CallMethodButton_Click"/>
-                    <controls:CallMethodButton Margin="20,0,10,0" Content="適用" MethodName="Apply"
-                                               IsEnabled="{Binding Changed}"/>
                 </WrapPanel>
+                    <controls:CallMethodButton Content="適用" MethodName="Apply"
+                                               IsEnabled="{Binding Changed}" HorizontalAlignment="Left"/>
+                </StackPanel>
                 <Grid Grid.Row="1" Margin="0,0,0,2">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto"/>
@@ -242,7 +248,7 @@
                                                         <DataTemplate>
                                                             <WrapPanel HorizontalAlignment="Left">
                                                                 <kcvc:SlotItemIcon Width="15" Height="15" Type="{Binding SlotItemInfo.IconType}"/>
-                                                                <TextBlock Style="{StaticResource SlotTextBlockStyle}" Margin="1,0,0,0" MinWidth="{StaticResource SlotNumWidth}">
+                                                                <TextBlock Style="{StaticResource SlotTextBlockStyle}">
                                                                     <Run Text="{Binding Slot}"/>
                                                                 </TextBlock>
                                                                 <TextBlock Margin="1,0,0,0" Width="{StaticResource SlotNameWidth}">
@@ -260,7 +266,7 @@
                                                         <DataTemplate>
                                                             <WrapPanel HorizontalAlignment="Left">
                                                                 <kcvc:SlotItemIcon Width="15" Height="15" Type="{Binding SlotItemInfo.IconType}"/>
-                                                                <TextBlock Style="{StaticResource SlotTextBlockStyle}" Margin="1,0,0,0" MinWidth="{StaticResource SlotNumWidth}">
+                                                                <TextBlock Style="{StaticResource SlotTextBlockStyle}">
                                                                     <Run Text="{Binding Slot}"/>
                                                                 </TextBlock>
                                                                 <TextBlock Margin="1,0,0,0" Width="{StaticResource SlotNameWidth}">
@@ -327,7 +333,7 @@
                                                         <DataTemplate>
                                                             <WrapPanel HorizontalAlignment="Left">
                                                                 <kcvc:SlotItemIcon Width="15" Height="15" Type="{Binding SlotItemInfo.IconType}" Margin="0"/>
-                                                                <TextBlock Style="{StaticResource SlotTextBlockStyle}" Margin="1,0,0,0" MinWidth="{StaticResource SlotNumWidth}">
+                                                                <TextBlock Style="{StaticResource SlotTextBlockStyle}">
                                                                     <Run Text="{Binding Slot}"/>
                                                                 </TextBlock>
                                                                 <TextBlock Margin="1,0,0,0" Width="{StaticResource SlotNameWidth}">
@@ -345,7 +351,7 @@
                                                         <DataTemplate>
                                                             <WrapPanel HorizontalAlignment="Left">
                                                                 <kcvc:SlotItemIcon Width="15" Height="15" Type="{Binding SlotItemInfo.IconType}" Margin="0"/>
-                                                                <TextBlock Style="{StaticResource SlotTextBlockStyle}" Margin="1,0,0,0" MinWidth="{StaticResource SlotNumWidth}">
+                                                                <TextBlock Style="{StaticResource SlotTextBlockStyle}">
                                                                     <Run Text="{Binding Slot}"/>
                                                                 </TextBlock>
                                                                 <TextBlock Margin="1,0,0,0" Width="{StaticResource SlotNameWidth}">
