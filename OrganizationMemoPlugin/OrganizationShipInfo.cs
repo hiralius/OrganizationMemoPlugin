@@ -13,6 +13,9 @@ namespace OrganizationMemoPlugin
 
         public int ExSlot { get; set; }
 
+        public int Level { get; set; }
+
+
         [System.Xml.Serialization.XmlIgnore]
         public ShipInfo ShipInfo => KanColleClient.Current.Master.Ships.Where(s => s.Value.Id == Id).First().Value;
 
