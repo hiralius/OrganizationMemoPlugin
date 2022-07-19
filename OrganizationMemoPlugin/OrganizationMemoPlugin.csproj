@@ -133,23 +133,23 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\KanColleViewer4.5\source\Grabacr07.KanColleViewer.Composition\KanColleViewer.Composition.csproj">
+    <ProjectReference Include="..\..\KanColleViewer\source\Grabacr07.KanColleViewer.Composition\KanColleViewer.Composition.csproj">
       <Project>{cc139e98-d847-41da-b20f-8aca4564f375}</Project>
       <Name>KanColleViewer.Composition</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\KanColleViewer4.5\source\Grabacr07.KanColleViewer.Controls\KanColleViewer.Controls.csproj">
+    <ProjectReference Include="..\..\KanColleViewer\source\Grabacr07.KanColleViewer.Controls\KanColleViewer.Controls.csproj">
       <Project>{978239d0-3129-4c54-aac6-493f0de48bf5}</Project>
       <Name>KanColleViewer.Controls</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\KanColleViewer4.5\source\Grabacr07.KanColleWrapper\KanColleWrapper.csproj">
+    <ProjectReference Include="..\..\KanColleViewer\source\Grabacr07.KanColleWrapper\KanColleWrapper.csproj">
       <Project>{0bc8cf79-76d9-46ad-867f-fec6c6ad4594}</Project>
       <Name>KanColleWrapper</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\KanColleViewer4.5\source\MetroRadiance\source\MetroRadiance\MetroRadiance.csproj">
+    <ProjectReference Include="..\..\KanColleViewer\source\MetroRadiance\source\MetroRadiance\MetroRadiance.csproj">
       <Project>{0af0b9ff-d981-4d0f-a41f-c3ab6fe2f16d}</Project>
       <Name>MetroRadiance</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\KanColleViewer4.5\source\MetroTrilithon\source\MetroTrilithon.Desktop\MetroTrilithon.Desktop.csproj">
+    <ProjectReference Include="..\..\KanColleViewer\source\MetroTrilithon\source\MetroTrilithon.Desktop\MetroTrilithon.Desktop.csproj">
       <Project>{4e2eb2e0-e5fe-4feb-a3e5-5f2f05cd1a67}</Project>
       <Name>MetroTrilithon.Desktop</Name>
     </ProjectReference>
