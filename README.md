@@ -4,6 +4,13 @@ KanColleViewer用の艦隊編成メモ一覧を表示します。
 
 ![サンプル](https://github.com/ruhiel/OrganizationMemoPlugin/wiki/images/sample.png)
 
+### オリジナルからの改良点
+* 編成名を変更可能
+* 編成リスト順を変更可能
+* 編成リスト内にメモ欄を追加
+* 編成リスト内の各艦に艦種名・艦レベル・増設スロットを追加
+* 編成リストデータの保存先をプラグインフォルダ内へ移動
+
 ### インストール
 
 * `OrganizationMemoPlugin.dll` を KanColleViewer の `Plugins` ディレクトリに放り込んで下さい。
