@@ -2,7 +2,7 @@
 KanColleViewer用の艦隊編成メモ一覧を表示します。
 艦隊編成を第二艦隊まで記録・閲覧することができます。
 
-![サンプル](https://github.com/ruhiel/OrganizationMemoPlugin/wiki/images/sample.png)
+![サンプル](https://user-images.githubusercontent.com/15935558/183579646-69b304e6-1f13-441f-8228-051b0fd61f73.png)
 
 ### オリジナルからの改良点
 * 編成名を変更可能
