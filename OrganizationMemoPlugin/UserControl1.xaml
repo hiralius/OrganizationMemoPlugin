@@ -274,7 +274,7 @@
 																<TextBlock Style="{StaticResource SlotTextBlockStyle}">
 																	<Run Text="{Binding Slot}"/>
 																</TextBlock>
-																<TextBlock Margin="-8,0,5,0" Width="{StaticResource SlotNameWidth}">
+																<TextBlock Margin="1,0,5,0" Width="{StaticResource SlotNameWidth}">
 																	<Run Text="{Binding SlotItemInfo.Name, Mode=OneWay}"
 																		 ToolTip="{Binding Hint, Mode=OneWay}"/>
 																</TextBlock>
@@ -292,7 +292,7 @@
 																<TextBlock Style="{StaticResource SlotTextBlockStyle}">
 																	<Run Text="{Binding Slot}"/>
 																</TextBlock>
-																<TextBlock Margin="-8,0,5,0" Width="{StaticResource SlotNameWidth}">
+																<TextBlock Margin="1,0,5,0" Width="{StaticResource SlotNameWidth}">
 																	<Run Text="{Binding SlotItemInfo.Name, Mode=OneWay}"
 																		 ToolTip="{Binding Hint, Mode=OneWay}"/>
 																</TextBlock>
